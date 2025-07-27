@@ -42,7 +42,17 @@ A Spring Boot-based microservice for generating and managing tracking numbers wi
 
 ### How to Run
 
-1. **Build the project**
+1. Run the Redis server
+   ```bash
+   docker run -d --name YOUR_REDIS_NAME -p 6379:6379 redis
+   ```
+   
+2. Run the MongoDB server, or MongoDB atlas to run on cloud
+   ```bash
+   docker run -d --name YOUR_MONGODB_NAME -p 27017:27017 mongo
+   ```
+   
+3. **Build the project**
    ```bash
    ./gradlew build
    ```
