@@ -23,13 +23,13 @@ A Spring Boot-based microservice for generating and managing tracking numbers wi
 
 ## ⚙️System Design
 ### Get Existing Package Track Number from Cache
-![Cache](https://drive.google.com/file/d/1oWKNyoJUQYXyZhyMgSkYd1c5HL8sQJ1g/view?usp=drive_link)
+![Cache](https://drive.google.com/file/d/1NVZZboj2Jkdz82cJs3I5fu8_J0xf5-Fe/view?usp=sharing)
 
 ### Get Existing Package Track Number from DB
-![DB](https://drive.google.com/file/d/1aMBZJbERbiS8zcUKfzj4jUi1x28mzy-i/view?usp=drive_link)
+![DB](https://drive.google.com/file/d/1NVZZboj2Jkdz82cJs3I5fu8_J0xf5-Fe/view?usp=sharing)
 
 ### Insert New Package Track Number into DB and Cache
-![Insert](https://drive.google.com/file/d/1xkm0CL6FxY2bpZVf_yqdpADzLdRf2xft/view?usp=drive_link)
+![Insert](https://drive.google.com/file/d/1NVZZboj2Jkdz82cJs3I5fu8_J0xf5-Fe/view?usp=sharing)
 
 ## 🛠️ Setup
 
@@ -42,7 +42,17 @@ A Spring Boot-based microservice for generating and managing tracking numbers wi
 
 ### How to Run
 
-1. **Build the project**
+1. Run the Redis server
+   ```bash
+   docker run -d --name YOUR_REDIS_NAME -p 6379:6379 redis
+   ```
+
+2. Run the MongoDB server, or MongoDB atlas to run on cloud
+   ```bash
+   docker run -d --name YOUR_MONGODB_NAME -p 27017:27017 mongo
+   ```
+
+3. **Build the project**
    ```bash
    ./gradlew build
    ```
@@ -81,15 +91,15 @@ GET http://localhost:8080/api/v1/next-tracking-number?origin_country_id=ID&desti
 
 ```json
 {
-  "code": 200,
-  "status": "OK",
-  "message": "Request successful",
-  "timestamp": "2025-06-24T17:32:10.942421Z",
-  "data": {
-    "track_number": "7GRHFD5K9EHZEHPE",
-    "created_at": "2025-06-25T00:32:10.942398+07:00"
-  },
-  "errors": null
+   "code": 200,
+   "status": "OK",
+   "message": "Request successful",
+   "timestamp": "2025-06-24T17:32:10.942421Z",
+   "data": {
+      "track_number": "7GRHFD5K9EHZEHPE",
+      "created_at": "2025-06-25T00:32:10.942398+07:00"
+   },
+   "errors": null
 }
 ```
 
