@@ -23,13 +23,13 @@ A Spring Boot-based microservice for generating and managing tracking numbers wi
 
 ## ⚙️System Design
 ### Get Existing Package Track Number from Cache
-![Tracknumber Insert Data.svg](..%2F..%2F..%2F..%2FDownloads%2FTracknumber%20Insert%20Data.svg)
+![tracknumber_get_data_cache.svg](tracknumber_get_data_cache.svg)
 
 ### Get Existing Package Track Number from DB
-![Tracknumber Insert Data (1).svg](..%2F..%2F..%2F..%2FDownloads%2FTracknumber%20Insert%20Data%20%281%29.svg)
+![tracknumber_get_data_db.svg](tracknumber_get_data_db.svg)
 
 ### Insert New Package Track Number into DB and Cache
-![Tracknumber Insert Data (2).svg](..%2F..%2F..%2F..%2FDownloads%2FTracknumber%20Insert%20Data%20%282%29.svg)
+![tracknumber_insert_data.svg](tracknumber_insert_data.svg)
 
 ## 🛠️ Setup
 
