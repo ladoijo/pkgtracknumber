@@ -5,6 +5,7 @@ import com.hadyan.teleport.pkgtracknumber.entity.CachePkgTrackNumber;
 import com.hadyan.teleport.pkgtracknumber.entity.PkgTrackNumber;
 import com.hadyan.teleport.pkgtracknumber.utils.KeyGeneratorUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,19 @@ public class CachePkgTrackNumberService {
                 pkgTrackNumber.getTrackNumberCreatedAt()
         );
         redisTemplate.opsForValue().set("pkg:" + key, cachePkgTrackNumber);
+    }
+
+    public void flushAll() {
+        redisTemplate.execute((RedisCallback<Boolean>) connection -> {
+            connection.serverCommands().flushAll();
+            return true;
+        });
+    }
+
+    public void flushDb() {
+        redisTemplate.execute((RedisCallback<Boolean>) connection -> {
+            connection.serverCommands().flushDb();
+            return  true;
+        });
     }
 }
