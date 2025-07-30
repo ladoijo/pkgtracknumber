@@ -49,13 +49,14 @@ public class PkgTrackNumberServiceTest {
         );
 
         var TRACK_NUMBER = "IIMSUYKV6AY32YHY";
-        var timeGenerated = OffsetDateTime.parse(testPkgTrackNumberReqDto.createdAt()).toEpochSecond();
+        var packageTimeGenerated = OffsetDateTime.parse(testPkgTrackNumberReqDto.packageCreatedAt()).toEpochSecond();
         testPkgTrackNumber = new PkgTrackNumber(
                 TRACK_NUMBER,
+                System.currentTimeMillis(),
                 testPkgTrackNumberReqDto.originCountryId(),
                 testPkgTrackNumberReqDto.destinationCountryId(),
                 testPkgTrackNumberReqDto.weight(),
-                timeGenerated,
+                packageTimeGenerated,
                 testPkgTrackNumberReqDto.customerId()
         );
     }
@@ -66,7 +67,7 @@ public class PkgTrackNumberServiceTest {
                 testPkgTrackNumberReqDto.originCountryId(),
                 testPkgTrackNumberReqDto.destinationCountryId(),
                 testPkgTrackNumberReqDto.weight(),
-                testPkgTrackNumberReqDto.getCreatedAtOffset().toInstant().toEpochMilli(),
+                testPkgTrackNumberReqDto.getPackageCreatedAtOffset().toInstant().toEpochMilli(),
                 testPkgTrackNumberReqDto.customerId()
         )).thenReturn(Optional.empty());
         var result = service.getTrackNumber(testPkgTrackNumberReqDto);
@@ -79,7 +80,7 @@ public class PkgTrackNumberServiceTest {
                 testPkgTrackNumberReqDto.originCountryId(),
                 testPkgTrackNumberReqDto.destinationCountryId(),
                 testPkgTrackNumberReqDto.weight(),
-                testPkgTrackNumberReqDto.getCreatedAtOffset().toInstant().toEpochMilli(),
+                testPkgTrackNumberReqDto.getPackageCreatedAtOffset().toInstant().toEpochMilli(),
                 testPkgTrackNumberReqDto.customerId()
         )).thenReturn(Optional.of(testPkgTrackNumber));
         var result = service.getTrackNumber(testPkgTrackNumberReqDto);
@@ -102,7 +103,7 @@ public class PkgTrackNumberServiceTest {
         assertEquals(testPkgTrackNumberReqDto.destinationCountryId(), result.getDestinationCountryId());
         assertEquals(testPkgTrackNumberReqDto.weight(), result.getWeight());
         assertEquals(testPkgTrackNumberReqDto.customerId(), result.getCustomerId());
-        assertTrue(result.getCreatedAt() > 0);
+        assertTrue(result.getPackageCreatedAt() > 0);
         assertNotNull(result.getTrackNumber());
         assertEquals(16, result.getTrackNumber().length());
 
@@ -121,9 +122,7 @@ public class PkgTrackNumberServiceTest {
 
         when(repo.insert(any(PkgTrackNumber.class))).thenThrow(dke);
 
-        var exception = assertThrows(DuplicatePackageTrackNumberException.class, () -> {
-            service.insertTrackNumber(testPkgTrackNumberReqDto);
-        });
+        var exception = assertThrows(DuplicatePackageTrackNumberException.class, () -> service.insertTrackNumber(testPkgTrackNumberReqDto));
 
         assertEquals("Duplicate tracking number", exception.getMessage());
         verify(repo, times(1)).insert(any(PkgTrackNumber.class));

@@ -50,6 +50,7 @@ public class CachePkgTrackNumberServiceTest {
         testPkgTrackNumber = new PkgTrackNumber(
                 "id",
                 "TRACK123",
+                System.currentTimeMillis(),
                 "ID",
                 "MY",
                 new BigDecimal("5.5"),
@@ -100,7 +101,7 @@ public class CachePkgTrackNumberServiceTest {
                 argThat(cache ->
                         cache.getId().equals(testPkgTrackNumber.getId()) &&
                                 cache.getTrackNumber().equals(testPkgTrackNumber.getTrackNumber()) &&
-                                cache.getCreatedAt() == testPkgTrackNumber.getCreatedAt()
+                                cache.getTrackNumberCreatedAt() == testPkgTrackNumber.getPackageCreatedAt()
                 )
         );
     }
@@ -109,7 +110,7 @@ public class CachePkgTrackNumberServiceTest {
     void savePkgTrackNumber_withNullValues_shouldHandleGracefully() {
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
         var nullTrackNumber = new PkgTrackNumber(
-                null, null, null, null, 0L, null
+                null, 0L, null, null, null, 0L, null
         );
         doNothing().when(valueOperations).set(anyString(), any());
         assertDoesNotThrow(() ->

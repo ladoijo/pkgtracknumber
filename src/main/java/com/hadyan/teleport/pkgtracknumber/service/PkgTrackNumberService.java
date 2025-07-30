@@ -25,7 +25,7 @@ public class PkgTrackNumberService {
                 packageTrackNumberReqDto.originCountryId(),
                 packageTrackNumberReqDto.destinationCountryId(),
                 packageTrackNumberReqDto.weight(),
-                packageTrackNumberReqDto.getCreatedAtOffset().toInstant().toEpochMilli(),
+                packageTrackNumberReqDto.getPackageCreatedAtOffset().toInstant().toEpochMilli(),
                 packageTrackNumberReqDto.customerId()
         );
     }
@@ -34,16 +34,17 @@ public class PkgTrackNumberService {
         var trackingNumber = KeyGeneratorUtil.generatePackageTrackNumber();
         var newTrackNumber = new PkgTrackNumber(
                 trackingNumber,
+                Instant.now().toEpochMilli(),
                 packageTrackNumberReqDto.originCountryId(),
                 packageTrackNumberReqDto.destinationCountryId(),
                 packageTrackNumberReqDto.weight(),
-                Instant.now().toEpochMilli(),
+                packageTrackNumberReqDto.getPackageCreatedAtOffset().toInstant().toEpochMilli(),
                 packageTrackNumberReqDto.customerId()
         );
 
         try {
             return repo.insert(newTrackNumber);
-        } catch (DuplicateKeyException ex) {
+        } catch (DuplicateKeyException | org.springframework.dao.DuplicateKeyException ex) {
             var message = "Duplicate tracking number";
             log.error("{}: {}", message,  trackingNumber);
             throw new DuplicatePackageTrackNumberException(message);

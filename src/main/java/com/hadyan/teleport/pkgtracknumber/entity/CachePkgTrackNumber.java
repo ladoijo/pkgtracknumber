@@ -16,5 +16,5 @@ public class CachePkgTrackNumber implements Serializable {
     @Id
     private String id;
     private String trackNumber;
-    private long createdAt;
+    private long trackNumberCreatedAt;
 }

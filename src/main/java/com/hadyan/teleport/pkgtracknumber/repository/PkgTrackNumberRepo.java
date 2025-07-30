@@ -10,12 +10,12 @@ import java.util.Optional;
 
 @Repository
 public interface PkgTrackNumberRepo extends MongoRepository<PkgTrackNumber, String> {
-    @Query("{ 'originCountryId': ?0, 'destinationCountryId': ?1, 'weight': ?2, 'createdAt': ?3, 'customerId': ?4 }")
+    @Query("{ 'originCountryId': ?0, 'destinationCountryId': ?1, 'weight': ?2, 'packageCreatedAt': ?3, 'customerId': ?4 }")
     Optional<PkgTrackNumber> findBy(
             String originCountryId,
             String destinationCountryId,
             BigDecimal weight,
-            long createdAt,
+            long packageCreatedAt,
             String customerId
     );
 }

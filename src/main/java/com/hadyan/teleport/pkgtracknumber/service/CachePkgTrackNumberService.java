@@ -14,7 +14,7 @@ public class CachePkgTrackNumberService {
     private final RedisTemplate<String, CachePkgTrackNumber> redisTemplate;
 
     public String getPkgTrackNumberKey(PkgTrackNumberReqDto packageTrackNumberReqDto) {
-        var millisCreatedAt = packageTrackNumberReqDto.getCreatedAtOffset().toInstant().toEpochMilli();
+        var millisCreatedAt = packageTrackNumberReqDto.getPackageCreatedAtOffset().toInstant().toEpochMilli();
         var redisKey = String.format("%s:%s:%s:%d:%3f",
                 packageTrackNumberReqDto.customerId(),
                 packageTrackNumberReqDto.originCountryId(),
@@ -33,7 +33,7 @@ public class CachePkgTrackNumberService {
         var cachePkgTrackNumber = new CachePkgTrackNumber(
                 pkgTrackNumber.getId(),
                 pkgTrackNumber.getTrackNumber(),
-                pkgTrackNumber.getCreatedAt()
+                pkgTrackNumber.getTrackNumberCreatedAt()
         );
         redisTemplate.opsForValue().set("pkg:" + key, cachePkgTrackNumber);
     }

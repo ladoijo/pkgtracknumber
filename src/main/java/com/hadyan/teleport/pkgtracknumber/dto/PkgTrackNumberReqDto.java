@@ -38,7 +38,7 @@ public record PkgTrackNumberReqDto(
                 regexp = PatternConst.REGEX_RFC_3339_PATTERN,
                 message = "created_at must be in valid RFC 3339 format"
         )
-        String createdAt,
+        String packageCreatedAt,
 
         @BindParam("customer_id")
         @NotNull(message = "customer_id is required")
@@ -60,8 +60,8 @@ public record PkgTrackNumberReqDto(
         )
         String customerSlug
 ) {
-        public OffsetDateTime getCreatedAtOffset() {
+        public OffsetDateTime getPackageCreatedAtOffset() {
                 var formatter = DateTimeFormatter.ofPattern(STRING_DATE_PATTERN);
-                return OffsetDateTime.parse(this.createdAt, formatter);
+                return OffsetDateTime.parse(this.packageCreatedAt, formatter);
         }
 }

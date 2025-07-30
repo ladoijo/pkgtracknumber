@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
@@ -50,17 +51,19 @@ public class PkgTrackNumberUseCaseTest {
         );
 
         var TRACK_NUMBER = "IIMSUYKV6AY32YHY";
-        var timeGenerated = OffsetDateTime.parse(testPkgTrackNumberReqDto.createdAt()).toEpochSecond();
+        var packageCreatedAt = OffsetDateTime.parse(testPkgTrackNumberReqDto.packageCreatedAt()).toEpochSecond();
+        var trackNumberCreatedAt = Instant.now().toEpochMilli();
         testPkgTrackNumber = new PkgTrackNumber(
                 TRACK_NUMBER,
+                trackNumberCreatedAt,
                 testPkgTrackNumberReqDto.originCountryId(),
                 testPkgTrackNumberReqDto.destinationCountryId(),
                 testPkgTrackNumberReqDto.weight(),
-                timeGenerated,
+                packageCreatedAt,
                 testPkgTrackNumberReqDto.customerId()
         );
 
-        testCachePkgTrackNumber = new CachePkgTrackNumber("id", TRACK_NUMBER, timeGenerated);
+        testCachePkgTrackNumber = new CachePkgTrackNumber("id", TRACK_NUMBER, trackNumberCreatedAt);
         testPkgTrackNumberRespDto = PkgTrackNumberRespDto.from(testCachePkgTrackNumber);
     }
 
